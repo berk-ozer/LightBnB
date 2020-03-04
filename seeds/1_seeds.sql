@@ -30,3 +30,15 @@ INSERT INTO reservations (start_date, end_date, property_id, guest_id) VALUES
 ('2018-07-28','2019-04-18',4,2),
 ('2018-07-02','2019-05-19',6,4),
 ('2018-09-11','2019-04-14',8,2);
+
+INSERT INTO property_reviews (rating, message, guest_id, property_id, reservation_id) VALUES 
+(4,'messages',3,4,3),
+(3,'messages',2,8,10),
+(1,'messages',3,3,2),
+(5,'messages',7,3,1),
+(5,'messages',4,6,9),
+(4,'messages',3,2,5),
+(3,'messages',4,8,4),
+(4,'messages',5,6,6),
+(4,'messages',2,4,8),
+(4,'messages',5,4,7);
