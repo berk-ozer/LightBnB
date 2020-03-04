@@ -1,13 +1,13 @@
-INSERT INTO users (name, email password) VALUES 
+INSERT INTO users (name, email, password) VALUES 
 ('Jack Dunfield', 'jackdun@gmail.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.'),
 ('Katie Moss', 'katiemossz@gmail.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.'),
 ('Phil Kess', 'philk@gmail.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.'),
 ('Joe Viro', 'joeviro32@yahoo.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.'),
 ('Sally Kessel', 'sallypants@gmail.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.'),
-('Luke Bewaj', 'lukecool@hotmail.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.');
+('Luke Bewaj', 'lukecool@hotmail.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.'),
 ('Chill Ooli', 'oilchilly@gmail.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.');
 
-INSERT INTO properties (title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, parking_spaces, number_of_bathrooms, number_of_bedrooms, country, street, city, province, post_code, active, owner_id) VALUES 
+INSERT INTO properties (title, description, thumbnail_photo_url, cover_photo_url,cost_per_night,parking_spaces,number_of_bathrooms,number_of_bedrooms,country,street,city,province,post_code,active,owner_id) VALUES 
 ('faucibus lectus,','description','http://littlepicture.com/sg9834k','http://largerpicture.com/gml34ge',342,1,1,3,'Ethiopia','Ap #850-2802 Ultricies Ave','Kaluga','KLU','41-954','True',1),
 ('auctor non,','description','http://littlepicture.com/asf2dsf','http://largerpicture.com/dhfh54',424,4,1,0,'Saint Lucia','6600 Aliquam Rd.','Juazeiro do Norte','CE','4236 MC','False',2),
 ('Aliquam tincidunt,','description','http://littlepicture.com/fghf46','http://largerpicture.com/dfh35',211,1,2,7,'Myanmar','1197 A, Avenue','San Pedro','SJ','YJ98 6JP','True',3),
@@ -19,7 +19,7 @@ INSERT INTO properties (title, description, thumbnail_photo_url, cover_photo_url
 ('porttitor scelerisque','description','http://littlepicture.com/shtsj4','http://largerpicture.com/dfjy5',317,2,2,6,'Haiti','P.O. Box 703, 2798 Nonummy. Rd.','Awka','Anambra','32269','False',7),
 ('Donec tempus,','description','http://littlepicture.com/4t34fd','http://largerpicture.com/dhfh33',305,1,3,0,'Latvia','634-7123 Natoque Street','Uiwang','Gye','57701','True',3);
 
-INSERT INTO reservations (start_date, end_date, property_id, guest_id) VALUES 
+INSERT INTO reservations (start_date,end_date,property_id,guest_id) VALUES 
 ('2018-09-30','2019-06-11',3,7),
 ('2018-03-18','2019-07-02',3,3),
 ('2018-09-13','2019-01-07',4,3),
@@ -31,7 +31,7 @@ INSERT INTO reservations (start_date, end_date, property_id, guest_id) VALUES
 ('2018-07-02','2019-05-19',6,4),
 ('2018-09-11','2019-04-14',8,2);
 
-INSERT INTO property_reviews (rating, message, guest_id, property_id, reservation_id) VALUES 
+INSERT INTO property_reviews (rating,message,guest_id,property_id,reservation_id) VALUES 
 (4,'messages',3,4,3),
 (3,'messages',2,8,10),
 (1,'messages',3,3,2),
