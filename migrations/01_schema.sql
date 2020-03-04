@@ -12,21 +12,25 @@ CREATE TABLE users (
 
 CREATE TABLE properties (
   id SERIAL PRIMARY KEY NOT NULL,
-  title VARCHAR(255),
+
+  title VARCHAR(255) NOT NULL,
   description TEXT,
-  thumbnail_photo_url VARCHAR(255),
-  cover_photo_url VARCHAR(255),
-  cost_per_night INTEGER,
-  parking_spaces SMALLINT,
-  number_of_bathrooms SMALLINT,
-  number_of_bedrooms SMALLINT,
-  country VARCHAR(255),
-  street VARCHAR(255),
-  city VARCHAR(255),
-  province VARCHAR(255),
-  post_code VARCHAR(255),
-  active BOOLEAN,
-  owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE NOT NULL
+  thumbnail_photo_url VARCHAR(255) NOT NULL,
+  cover_photo_url VARCHAR(255) NOT NULL,
+  cost_per_night INTEGER NOT NULL DEFAULT 0,
+  parking_spaces SMALLINT NOT NULL DEFAULT 0,
+  number_of_bathrooms SMALLINT NOT NULL DEFAULT 0,
+  number_of_bedrooms SMALLINT NOT NULL DEFAULT 0,
+
+  country VARCHAR(255) NOT NULL,
+  street VARCHAR(255) NOT NULL,
+  city VARCHAR(255) NOT NULL,
+  province VARCHAR(255) NOT NULL,
+  post_code VARCHAR(255) NOT NULL,
+
+  active BOOLEAN NOT NULL DEFAULT TRUE,
+
+  owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE reservations (
