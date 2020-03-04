@@ -18,3 +18,15 @@ INSERT INTO properties (title, description, thumbnail_photo_url, cover_photo_url
 ('nunc ac','description','http://littlepicture.com/rtyej5','http://largerpicture.com/dfhd22',272,0,1,2,'Sao Tome and Principe','Ap #849-2419 Mi Street','Lincoln','Nebraska','66751','True',2),
 ('porttitor scelerisque','description','http://littlepicture.com/shtsj4','http://largerpicture.com/dfjy5',317,2,2,6,'Haiti','P.O. Box 703, 2798 Nonummy. Rd.','Awka','Anambra','32269','False',7),
 ('Donec tempus,','description','http://littlepicture.com/4t34fd','http://largerpicture.com/dhfh33',305,1,3,0,'Latvia','634-7123 Natoque Street','Uiwang','Gye','57701','True',3);
+
+INSERT INTO reservations (start_date, end_date, property_id, guest_id) VALUES 
+('2018-09-30','2019-06-11',3,7),
+('2018-03-18','2019-07-02',3,3),
+('2018-09-13','2019-01-07',4,3),
+('2018-09-27','2019-02-04',8,4),
+('2018-03-01','2019-01-04',2,3),
+('2018-06-21','2018-12-11',6,5),
+('2018-04-11','2019-09-17',4,5),
+('2018-07-28','2019-04-18',4,2),
+('2018-07-02','2019-05-19',6,4),
+('2018-09-11','2019-04-14',8,2);
