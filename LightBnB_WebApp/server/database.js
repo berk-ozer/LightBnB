@@ -119,6 +119,15 @@ const getAllProperties = function(options, limit = 10) {
     queryString += `WHERE city LIKE $${queryParams.length}`;
   }
 
+  if (options.owner_id) {
+    if (queryParams.length) 
+      queryString += ' AND ';
+    else 
+      queryString += ' WHERE '
+    queryParams.push(Number(options.owner_id));
+    queryString += `owner_id = $${queryParams.length}`;
+  }
+
   queryParams.push(limit);
   queryString += `
     GROUP BY properties.id
