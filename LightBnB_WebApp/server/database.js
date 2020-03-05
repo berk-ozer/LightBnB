@@ -131,6 +131,7 @@ const getAllProperties = function(options, limit = 10) {
 }
 exports.getAllProperties = getAllProperties;
 
+// Returns where clauses as a string, query parameters as array
 const generateWhereClauses = options => {
   if (Object.keys(options).length === 0) {
     return ['', []] ;
@@ -170,47 +171,6 @@ const generateWhereClauses = options => {
 
   return [`WHERE ${clauses.join(' AND ')}`, queryParams];
 }
-
-
-// const generateWhereClause = (options) => {
-//   if (!options || !Object.keys(options)) { return; }
-
-//   const clauses = [];
-//   const queryParams = [];
-
-//   Object.keys(options).forEach((option, index) => {
-//     let operator = '=';
-//     let column = option;
-    
-//     switch(option) {
-//       case 'city': {
-//         operator = 'ILIKE';
-//         queryParams.push(options[option]);
-//         break;
-//       }
-//       case 'minimum_price_per_night': {
-//         queryParams.push(Number(options[option]));
-//         operator = '>=';
-//         column = 'cost_per_night';
-//         break;
-//       }
-//       case 'maximum_price_per_night': {
-//         queryParams.push(Number(options[option]));
-//         operator = '<=';
-//         column = 'cost_per_night';
-//         break;
-//       }
-//       default: {
-//         queryParams.push(Number(options[option]));
-//         break;
-//       }
-//     }
-//     clauses.push(`${column} ${operator} $${index + 1}`);
-//   });
-
-//   return [`WHERE ${clauses.join(' AND ')}`, queryParams];
-// };
-
 
 /**
  * Add a property to the database
