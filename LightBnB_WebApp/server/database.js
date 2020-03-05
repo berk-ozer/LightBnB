@@ -114,11 +114,20 @@ const getAllProperties = function(options, limit = 10) {
 
   const [whereClauses, queryParams] = generateWhereClauses(options);
 
+  if (queryParams.length) {queryString += 'WHERE '};
+
   queryString += whereClauses;
+  queryString += `
+  GROUP BY properties.id
+  `;
+
+  if (options.minimum_rating) {
+    queryParams.push(Number(options.minimum_rating));
+    queryString += `HAVING AVG(property_reviews.rating) >= $${queryParams.length}`;
+  }
 
   queryParams.push(limit);
   queryString += `
-    GROUP BY properties.id
     ORDER BY cost_per_night
     LIMIT $${queryParams.length};
   `;
@@ -133,16 +142,12 @@ exports.getAllProperties = getAllProperties;
 
 // Returns where clauses as a string, query parameters as array
 const generateWhereClauses = options => {
-  if (Object.keys(options).length === 0) {
-    return ['', []] ;
-  }
-
   const clauses = [];
   const queryParams = [];
 
   for (const option in options) {
 
-    if (options[option] !== '') {
+    if (options[option] !== '' && option !== 'minimum_rating') {
   
       if (option === 'city') {
         clauses.push(`city ILIKE $${queryParams.length + 1}`);
@@ -169,7 +174,7 @@ const generateWhereClauses = options => {
 
   }
 
-  return [`WHERE ${clauses.join(' AND ')}`, queryParams];
+  return [`${clauses.join(' AND ')}`, queryParams];
 }
 
 /**
