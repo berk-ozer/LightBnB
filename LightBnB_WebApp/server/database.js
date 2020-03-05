@@ -109,7 +109,7 @@ const getAllProperties = function(options, limit = 10) {
   let queryString = `
     SELECT properties.*, AVG(property_reviews.rating) as average_rating
     FROM properties
-    JOIN property_reviews ON property_id = properties.id
+    LEFT JOIN property_reviews ON property_id = properties.id
   `;
 
   const [whereClauses, queryParams] = generateWhereClauses(options);
@@ -131,8 +131,6 @@ const getAllProperties = function(options, limit = 10) {
     ORDER BY cost_per_night
     LIMIT $${queryParams.length};
   `;
-
-  console.log(queryString, queryParams);
   
   return pool.query(queryString, queryParams)
     .then(res => res.rows)
@@ -151,7 +149,7 @@ const generateWhereClauses = options => {
   
       if (option === 'city') {
         clauses.push(`city ILIKE $${queryParams.length + 1}`);
-        queryParams.push(options[option]);
+        queryParams.push(`%${options[option]}%`);
         continue;
       }
       
@@ -183,9 +181,15 @@ const generateWhereClauses = options => {
  * @return {Promise<{}>} A promise to the property.
  */
 const addProperty = function(property) {
-  const propertyId = Object.keys(properties).length + 1;
-  property.id = propertyId;
-  properties[propertyId] = property;
-  return Promise.resolve(property);
+  const queryString = `
+  INSERT INTO properties (title, description, owner_id, cover_photo_url, thumbnail_photo_url, cost_per_night, parking_spaces, number_of_bathrooms, number_of_bedrooms, province, city, country, street, post_code) 
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+  RETURNING *;
+  `;
+  const queryParams = [property.title, property.description, property.owner_id, property.cover_photo_url, property.thumbnail_photo_url, property.cost_per_night, Number(property.parking_spaces), Number(property.number_of_bathrooms), Number(property.number_of_bedrooms), property.province, property.city, property.country, property.street, property.post_code]
+
+  return pool.query(queryString, queryParams) 
+    .then(res => res.rows[0])
+    .catch(err => err);
 }
 exports.addProperty = addProperty;
