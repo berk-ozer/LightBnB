@@ -76,16 +76,16 @@ exports.getAllReservations = getAllReservations;
  * @return {Promise<[{}]>}  A promise to the properties.
  */
 const getAllProperties = function(options, limit = 10) {
-  const queryString = `
-  SELECT *
-  FROM properties
-  LIMIT $1
-  `;
-  const values = [limit];
-
-  pool.query(queryString, values)
-    .then(res => console.log(res.rows))
-    .catch(err => console.error('query error', err));
+    const queryString = `
+    SELECT *
+    FROM properties
+    LIMIT $1
+    `;
+    const values = [limit];
+  
+    return pool.query(queryString, values)
+      .then(res => res.rows)
+      .catch(err => ('query error', err));
 }
 exports.getAllProperties = getAllProperties;
 
