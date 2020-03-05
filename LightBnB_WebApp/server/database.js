@@ -106,27 +106,15 @@ exports.getAllReservations = getAllReservations;
  * @return {Promise<[{}]>}  A promise to the properties.
  */
 const getAllProperties = function(options, limit = 10) {
-  const queryParams = [];
-
   let queryString = `
     SELECT properties.*, AVG(property_reviews.rating) as average_rating
     FROM properties
     JOIN property_reviews ON property_id = properties.id
   `;
 
-  if (options.city) {
-    queryParams.push(`%${options.city}%`);
-    queryString += `WHERE city LIKE $${queryParams.length}`;
-  }
+  const [whereClauses, queryParams] = generateWhereClauses(options);
 
-  if (options.owner_id) {
-    if (queryParams.length) 
-      queryString += ' AND ';
-    else 
-      queryString += ' WHERE '
-    queryParams.push(Number(options.owner_id));
-    queryString += `owner_id = $${queryParams.length}`;
-  }
+  queryString += whereClauses;
 
   queryParams.push(limit);
   queryString += `
@@ -142,6 +130,86 @@ const getAllProperties = function(options, limit = 10) {
     .catch(err => err);
 }
 exports.getAllProperties = getAllProperties;
+
+const generateWhereClauses = options => {
+  if (Object.keys(options).length === 0) {
+    return ['', []] ;
+  }
+
+  const clauses = [];
+  const queryParams = [];
+
+  for (const option in options) {
+
+    if (options[option] !== '') {
+  
+      if (option === 'city') {
+        clauses.push(`city ILIKE $${queryParams.length + 1}`);
+        queryParams.push(options[option]);
+        continue;
+      }
+      
+      if (option === 'owner_id') {
+        clauses.push(`owner_id = $${queryParams.length + 1}`);
+        queryParams.push(Number(options[option]));
+        continue;
+      }
+      
+      if (option === 'minimum_price_per_night') {
+        clauses.push(`cost_per_night >= $${queryParams.length + 1}`);
+      }
+
+      if (option === 'maximum_price_per_night') {
+        clauses.push(`cost_per_night <= $${queryParams.length + 1}`);
+      }
+
+      queryParams.push(Number(options[option] * 100));
+    }
+
+  }
+
+  return [`WHERE ${clauses.join(' AND ')}`, queryParams];
+}
+
+
+// const generateWhereClause = (options) => {
+//   if (!options || !Object.keys(options)) { return; }
+
+//   const clauses = [];
+//   const queryParams = [];
+
+//   Object.keys(options).forEach((option, index) => {
+//     let operator = '=';
+//     let column = option;
+    
+//     switch(option) {
+//       case 'city': {
+//         operator = 'ILIKE';
+//         queryParams.push(options[option]);
+//         break;
+//       }
+//       case 'minimum_price_per_night': {
+//         queryParams.push(Number(options[option]));
+//         operator = '>=';
+//         column = 'cost_per_night';
+//         break;
+//       }
+//       case 'maximum_price_per_night': {
+//         queryParams.push(Number(options[option]));
+//         operator = '<=';
+//         column = 'cost_per_night';
+//         break;
+//       }
+//       default: {
+//         queryParams.push(Number(options[option]));
+//         break;
+//       }
+//     }
+//     clauses.push(`${column} ${operator} $${index + 1}`);
+//   });
+
+//   return [`WHERE ${clauses.join(' AND ')}`, queryParams];
+// };
 
 
 /**
