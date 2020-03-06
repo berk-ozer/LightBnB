@@ -1,14 +1,7 @@
 const properties = require('./json/properties.json');
 const users = require('./json/users.json');
 
-const { Pool } = require('pg');
-
-const pool = new Pool({
-  user: 'vagrant',
-  password: '123',
-  host: 'localhost',
-  database: 'lightbnb'
-});
+const db = require('./db/index');
 
 /// Users
 
@@ -25,7 +18,7 @@ const getUserWithEmail = function(email) {
   `;
   const values = [email];
 
-  return pool.query(queryString, values)
+  return db.query(queryString, values)
     .then(res => res.rows[0] || null)
     .catch(err => err);
 }
@@ -44,7 +37,7 @@ const getUserWithId = function(id) {
   `;
   const values = [id];
 
-  return pool.query(queryString, values)
+  return db.query(queryString, values)
     .then(res => res.rows[0] || null)
     .catch(err => err);
 }
@@ -64,7 +57,7 @@ const addUser =  function(user) {
   `;
   const values = [user.name, user.email, user.password]
 
-  return pool.query(queryString, values)
+  return db.query(queryString, values)
     .then(res => res.rows[0])
     .catch(err => err);
 }
@@ -91,7 +84,7 @@ const getAllReservations = function(guest_id, limit = 10) {
   `;
   const values = [guest_id, limit];
 
-  return pool.query(queryString, values)
+  return db.query(queryString, values)
     .then(res => res.rows)
     .catch(err => err);
 }
@@ -132,7 +125,7 @@ const getAllProperties = function(options, limit = 10) {
     LIMIT $${queryParams.length};
   `;
   
-  return pool.query(queryString, queryParams)
+  return db.query(queryString, queryParams)
     .then(res => res.rows)
     .catch(err => err);
 }
@@ -188,7 +181,7 @@ const addProperty = function(property) {
   `;
   const queryParams = [property.title, property.description, property.owner_id, property.cover_photo_url, property.thumbnail_photo_url, property.cost_per_night, Number(property.parking_spaces), Number(property.number_of_bathrooms), Number(property.number_of_bedrooms), property.province, property.city, property.country, property.street, property.post_code]
 
-  return pool.query(queryString, queryParams) 
+  return db.query(queryString, queryParams) 
     .then(res => res.rows[0])
     .catch(err => err);
 }
